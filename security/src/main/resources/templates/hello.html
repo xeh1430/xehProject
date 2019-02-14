@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>Hello World!</title>
+</head>
+<body>
+<h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
+
+<div sec:authorize="isAuthenticated()">
+    <!-- 用户认证通过才能才显示 -->
+    <p>用户名:<span sec:authentication="name"></span></p>
+    <p>权限:<span sec:authentication="principal.authorities"></span></p>
+</div>
+<div sec:authorize="hasRole('ADMIN')">
+    <!-- 用户角色为“ADMIN”才显示 -->
+    <p>【管理员】才能看见的内容</p>
+</div>
+<div sec:authorize="hasRole('USER')">
+    <!-- 用户角色为“USER”才显示 -->
+    <p>【普通用户】才能看到的内容</p>
+</div>
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="注销"/>
+</form>
+</body>
+</html>
